@@ -1,3 +1,23 @@
 body {
 	padding-top: 70px;
 }
+
+.navbar-default {
+	background-color: black;
+}
+
+.navbar-red {
+	background-color: red;
+}
+
+.navbar-default .navbar-text {
+	color: white;
+}
+
+.tachado {
+	text-decoration: line-through;
+}
+
+
+
+
