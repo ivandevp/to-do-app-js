@@ -4,48 +4,59 @@
 
 	var cargarPagina = function () {
 		// Envío de To - Do
-		var toDoForm = document.getElementById("to-do-form");
-		var message = document.getElementById("message");
-
-		toDoForm.addEventListener("submit", agregarToDo);
-		message.addEventListener("keyup", validarContenido);
+		$("#to-do-form").submit(agregarToDo);
+		$("#message").keyup(validarContenido);
 	};
 
 	var agregarToDo = function (e) {
 		e.preventDefault();
 		// Obtenemos datos
-		var contenedor = document.getElementById("posts");
-		var mensajeContenedor = document.getElementById("message");
-		var botonAgregar = document.getElementById("add-button");
-		var mensaje = mensajeContenedor.value;
+		var $contenedor = $("#posts");
+		var $mensajeContenedor = $("#message");
+		var $botonAgregar = $("#add-button");
+		var mensaje = $mensajeContenedor.val();
+
+		/*
+			// Obtenemos el contenido de un elemento 
+			.value <> .val()
+			.innerHTML <> .html()
+			.innerText <> .text()
+			.textContent <>
+
+			// Establecer el contenido de un elemento
+			.value = "" <> .val("")
+			.innerHTML = "" <> .html("")
+			.innerText = "" <> .text()
+			.textContent = ""
+		*/
 
 		// Creamos elementos
-		var postContenedor = document.createElement("article");
-		var postCheck = document.createElement("input");
-		var postTexto = document.createElement("label");
+		var $postContenedor = $("<article />", { "class": "jumbotron" });
+		var $postCheck = $("<input type='checkbox' />");
+		var $postTexto = $("<label />");
 
 		var identificador = "marcador-" + contador;
 
 		// Personalizamos elementos
-		postContenedor.className = "jumbotron";
-		postCheck.id = identificador;
-		postCheck.type = "checkbox";
-		postTexto.setAttribute("for", identificador);
-		postTexto.textContent = mensaje;
+		// $postContenedor.addClass("jumbotron");
+		$postCheck.id = identificador;
+		// $postCheck.type = "checkbox";
+		$postTexto.attr("for", identificador);
+		$postTexto.text(mensaje);
 
-		postCheck.addEventListener("click", eliminarToDo);
+		$postCheck.click(eliminarToDo);
 
 		// Agregarlos al DOM
-		postContenedor.appendChild(postCheck);
-		postContenedor.appendChild(postTexto);
+		$postContenedor.append($postCheck);
+		$postContenedor.append($postTexto);
 
 		// Agregarlo a un elemento existente para visualizarlo
 		// contenedor.appendChild(postContenedor);
-		contenedor.insertBefore(postContenedor, contenedor.childNodes[0])
+		$contenedor.prepend($postContenedor);
 
 		// Borrar contenido de textarea
-		mensajeContenedor.value = "";
-		botonAgregar.disabled = true;
+		$mensajeContenedor.val("");
+		$botonAgregar.attr("disabled", true);
 
 		// bind, apply, call
 
@@ -53,23 +64,27 @@
 	};
 
 	var eliminarToDo = function () {
-		// var texto = this.nextElementSibling;
-		// texto.classList.toggle("tachado");
-		var contenedor = this.parentElement;
-		// contenedor.classList.add("hidden");
-		contenedor.remove();
+		$(this).parent().remove();
 	};
 
 	var validarContenido = function () {
-		var addButton = document.getElementById("add-button");
+		var $addButton = $("#add-button");
 		// .trim() solo borra los espacios de sobra a los costados (izquierda y derecha)
-		if(this.value.trim().length > 0) {
-			addButton.removeAttribute("disabled");
+		if($(this).val().trim().length > 0) {
+			$addButton.removeAttr("disabled");
 		} else {
-			addButton.disabled = true;
+			$addButton.attr("disabled", true);
 		}
 	};
 
 	// Cuando carga la página
-	window.addEventListener("load", cargarPagina);
+	$(document).ready(cargarPagina);
 })();
+
+
+
+
+
+
+
+
